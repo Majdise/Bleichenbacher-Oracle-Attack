@@ -91,7 +91,7 @@ Also includes:
 
 ## 🔗 Resources
 
-- All required files for players: attached to the project 
+- All required files for players: attached, see **levels_explanation** folder.
 
 ---
 
