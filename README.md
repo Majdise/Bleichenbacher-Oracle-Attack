@@ -2,6 +2,7 @@ Bleichenbacher attack
 
 
 1 Introduction
+
 In modern cryptography, RSA encryption remains one of the most
 widely used algorithms for securing communications. However, like
 any cryptographic method, RSA is vulnerable to certain attacks,
@@ -30,6 +31,7 @@ of how these vulnerabilities can be exploited.
 
 
 2 Attack description
+
 In this work we consider the following scenario. Suppose 𝑛, 𝑒 represent
 an RSA public key with 𝑑 as its corresponding private key.
 An attacker is assumed to have access to an oracle that, given any
@@ -52,17 +54,19 @@ be successfully executed.
 
 
 3 CTF Design
+
 The CTF is divided into several levels, each exposing the players to
 different skills, tools, and ideas:
 
 3.1 Level 0 - Introduction to Our CTF
+
 The goal of this level is to introduce the player to the world of CTF,
 present the necessary thinking methods, and familiarize them with
 the fact that they will need to search on Google for things they
 don’t know.
 
-3.2 Level 1 - Introduction to the Bleichenbacher
-Attack
+3.2 Level 1 - Introduction to the Bleichenbacher Attack
+
 The goal of this level is to present the bleichenbacher attack gently
 and graduallyto the players. This is accomplished by a comprehensive
 guide to the attack, and a code skeleton for the attack, missing
@@ -71,15 +75,16 @@ complete them. Thus, the player is expected to use the guide, and
 to learn independently using google and online sources relevant
 background needed such as RSA.
 
-3.3 Level 2 - Optimizations to the
-Bleichenbacher Attack
+3.3 Level 2 - Optimizations to the Bleichenbacher Attack
+
 The goal of each such level is to introduce the player to some
 improvement of the attacks efficiency, to address a well known 
 bottleneck and overall make the attack more practical. In each
 “optimization level” the sole focus is on the contribution the optimization
 “brings to the table”.
-3.4 Level 3 - Noisy Oracles and How to Deal
-with Them
+
+3.4 Level 3 - Noisy Oracles and How to Deal with Them
+
 The goal of this level is to introduce players to the challenges
 that arise when moving from theoretical attacks to real-world implementations.
 In particular, it focuses on the concept of noisy
@@ -93,6 +98,7 @@ attacks in real-world scenarios and how attackers must
 adapt to countermeasures like noisy oracles.
 
 4 Conclusions
+
 In this project, we explored the Bleichenbacher attack on RSA
 encryption, highlighting its significance in cryptographic vulnerabilities,
 particularly in padding oracle attacks. Through the implementation
