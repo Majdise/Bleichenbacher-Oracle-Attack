@@ -1,7 +1,4 @@
-Bleichenbacher attack
-
-
-1 Introduction
+# Bleichenbacher Attack Project
 
 In modern cryptography, RSA encryption remains one of the most
 widely used algorithms for securing communications. However, like
@@ -29,97 +26,154 @@ and the challenges associated with countering such vulnerabilities.
 Through this project, we aim to provide a practical demonstration
 of how these vulnerabilities can be exploited.
 
+---
 
-2 Attack description
+## 📁 Project Structure
 
-In this work we consider the following scenario. Suppose 𝑛, 𝑒 represent
-an RSA public key with 𝑑 as its corresponding private key.
-An attacker is assumed to have access to an oracle that, given any
-ciphertext c, reveals whether the decrypted value 𝑐𝑑 𝑚𝑜𝑑 𝑛 adheres
-to the format specified by the PKCS #1.5 standard. We demonstrate
-how this oracle can be leveraged to either decrypt a message or
-produce a valid signature. By systematically crafting ciphertexts—
-each choice informed by previous oracle responses—the attacker
-progressively gathers information about 𝑐𝑑 . This approach exemplifies
-an adaptive chosen-ciphertext attack, where the attacker
-uses the oracle’s partial decryption feedback to gradually reduce
-the uncertainty about the plaintext. While conventional chosenciphertext
-attacks typically assume that a decryption device outputs
-the full plaintext, thereby rendering such attacks mostly a theoretical
-concern, the method described here is practical. In real-world
-scenarios, for example, when an attacker can interact with a server
-that accepts encrypted messages and returns an error message indicating
-whether the decryption conforms to PKCS, the attack can
-be successfully executed.
+The project is divided into two main libraries:
 
+### 1. `attack` Library
 
-3 CTF Design
+Implements the Bleichenbacher attack in several forms:
 
-The CTF is divided into several levels, each exposing the players to
-different skills, tools, and ideas:
+- **Basic Attack**
+- **Optimized Version**
+- **Bad Version Oracle (BVO)**
+- **Noisy Oracle (and countermeasures)**
+- **OAEP Oracle Attack**
 
-3.1 Level 0 - Introduction to Our CTF
+Also includes:
+- Home-made RSA implementation
+- PKCS#1 and SPKCS padding schemes
 
-The goal of this level is to introduce the player to the world of CTF,
-present the necessary thinking methods, and familiarize them with
-the fact that they will need to search on Google for things they
-don’t know.
+#### Optimizations Implemented:
+- OAEP handling
+- Parallel threading
+- Trimmers
+- Skipping-holes logic
 
-3.2 Level 1 - Introduction to the Bleichenbacher Attack
+#### Oracles Implemented:
+- Bad Version Oracle (BVO)
+- Noisy Oracle
+- OAEP Oracle
 
-The goal of this level is to present the bleichenbacher attack gently
-and graduallyto the players. This is accomplished by a comprehensive
-guide to the attack, and a code skeleton for the attack, missing
-subtle and relevant details for the attack - so the player’s role is to
-complete them. Thus, the player is expected to use the guide, and
-to learn independently using google and online sources relevant
-background needed such as RSA.
+---
 
-3.3 Level 2 - Optimizations to the Bleichenbacher Attack
+## ▶️ Running the Attack Library
 
-The goal of each such level is to introduce the player to some
-improvement of the attacks efficiency, to address a well known 
-bottleneck and overall make the attack more practical. In each
-“optimization level” the sole focus is on the contribution the optimization
-“brings to the table”.
+**Basic / Optimized / Noisy Versions:**
 
-3.4 Level 3 - Noisy Oracles and How to Deal with Them
+1. Run `Server.py`
+2. Then run `Attacker_<version>.py` (replace `<version>` with `basic`, `opt`, or `noisy`)
 
-The goal of this level is to introduce players to the challenges
-that arise when moving from theoretical attacks to real-world implementations.
-In particular, it focuses on the concept of noisy
-oracles—systems that intentionally introduce noise into responses
-to hinder or complicate an In this level, the player is tasked with
-dealing with a noisy oracle. Players will need to modify their attack
-to account for these inconsistencies, learning how to overcome
-noise in order to still recover the plaintext message. By completing
-this level, players will better understand the limitations of cryptographic
-attacks in real-world scenarios and how attackers must
-adapt to countermeasures like noisy oracles.
+**BVO Version:**
 
-4 Conclusions
+1. Run `Server_BVO.py`
+2. Then run `Attacker_robin.py`
 
-In this project, we explored the Bleichenbacher attack on RSA
-encryption, highlighting its significance in cryptographic vulnerabilities,
-particularly in padding oracle attacks. Through the implementation
-of the original attack, along with three optimizations
-to enhance its efficiency, we demonstrated how a seemingly theoretical
-vulnerability can be exploited in practice. Additionally, we
-introduced the concept of a noisy oracle, simulating a more realistic
-environment where attackers face countermeasures designed to
-hinder their progress.
-The Capture the Flag (CTF) challenge created around this attack
-provides an interactive, hands-on learning experience, guiding
-participants through different stages of the Bleichenbacher attack
-and its optimizations. By designing levels that introduce key concepts
-gradually—from understanding the basic attack to dealing
-with noisy oracles—players gain a deeper understanding of cryptographic
-vulnerabilities and the complexities involved in real-world
-security.
-Ultimately, this project emphasizes the importance of secure
-cryptographic practices and the need for robust countermeasures
-against attacks like Bleichenbacher. It also showcases how understanding
-and mitigating such vulnerabilities can help strengthen
-the security of modern cryptographic systems. Through the CTF,
-we hope to have inspired greater awareness and sparked further
-exploration into the
+**OAEP Version:**
+
+1. Run `Server_OAEP.py`
+2. Then run `Attacker_OAEP.py`
+
+⚠️ Note: Run files in the exact stated order.
+
+---
+
+## 🧪 Example Run Instructions (Translated Highlights)
+
+- Choose a secret in the server script
+- Set oracle strictness (noisy or regular)
+- Run the attacker script and observe the attack progress and convergence
+- Final output shows recovered secret and live progress updates
+
+---
+
+## 🔗 Resources
+
+- All required files for players: attached to the project 
+
+---
+
+## 🎯 CTF Library
+
+### Leaked Message (`leaked_message.bin`)
+For Level 0, players get a file encrypted with a Caesar cipher. Players are expected to extract the string using the `strings` utility and decipher it.
+
+### Interface
+
+- `ctf_player.py`: Used by the player to submit flags.
+- `ctf_server.py`: Backend run by the operator. Handles flag validation, scoring, and level progression.
+
+### Attackers
+
+- `skeletons/`: Incomplete attack implementations (for player use)
+- `solutions/`: Fully implemented versions (reference/solution)
+
+### Servers
+
+Each level has a specific server/player pair. For example:
+- `sys1_server.py` → Level 1
+- `sys1_player.py` → Level 1 Player Attack Script
+
+> Servers should be kept running persistently and support multiple player connections concurrently.
+
+---
+
+## ⚙️ Additional Notes
+
+- Ensure correct IP and socket settings for each environment.
+- Some manual adjustments might be needed depending on the system configuration.
+
+---
+
+## 📂 Project File Structure
+
+Here’s an overview of the key folders and files in the project:
+
+### `attack/`
+Contains the full implementations of Bleichenbacher attack variations.
+
+- `Attacker_basic.py`, `Attacker_opt.py`, `Attacker_noisy.py`: Basic, optimized, and noisy oracle attack versions.
+- `Attacker_robin.py`: Used for the Bad Version Oracle (BVO) attack.
+- `Attacker_OAEP.py`: Specialized OAEP oracle attack.
+- `Server.py`, `Server_BVO.py`, `Server_OAEP.py`: Server implementations for corresponding attacker versions.
+- `RSA.py`: Custom RSA implementation with PKCS/SPKCS padding.
+- `encrypted_message`, `public_key`: Data files for running the attack scenarios.
+
+---
+
+### `ctf/`
+Implements the CTF game logic and environment.
+
+#### `attackers/`
+
+- `skeletons/`: Starter code for players.
+  - `sys1_player_skeleton.py`, ..., `sys3_player_skeleton.py`: Incomplete player-side attack scripts for each level.
+  - `RSA.py`: Simplified RSA module used in these challenges.
+
+- `solutions/`: Full working versions of the attack code (for verification).
+  - Includes files like `sys1_player.py`, ..., `sys3_player.py`.
+
+#### `interface/`
+
+- `ctf_player.py`: Player-facing script for flag submission.
+- `ctf_server.py`: Central server that verifies flags and handles game progression.
+- `RSA.py`: Used by the interface code.
+
+#### `server/`
+
+- Contains server-side files for each CTF level.
+- `sys1_server.py`, ..., `sys3_server.py`: Corresponding to each level in the game.
+- `RSA.py`: Used internally by the level servers.
+
+---
+
+### Other Files
+
+- `leaked_message/`: Folder containing the `leaked_message.bin` file for Level 0 (Caesar cipher challenge).
+- `README.md`: This file 😊
+
+---
+
+Each folder is modular and reflects a clear separation of concerns between attack logic, CTF game flow, and educational use for players.
